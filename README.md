@@ -3,10 +3,10 @@
 `XTrader` is an **EXPERIMENTAL** robot for cryptocurrency trading on exchange platform, and `PA` is the develop code.
 
 ### Environment
-* python 3
+* python3
 * pip
 
-> Python 2 will not be supported in develop plan.
+> python2 will not be supported in develop plan.
 
 ### Usage
 * Command line help info.
@@ -19,13 +19,13 @@
 
     optional arguments:
       -h, --help                show this help message and exit
-      -s, --symbol              symbol
-      -q, --quantity            quantity must be greater than 0
-      -f, --fee                 fee must be greater than or equal to 0
-      -p, --profit              profit must be greater than or equal to 0.3
-      -pa, --price_adjust       price_adjust must be greater than or equal to 1
-      -tc, --transaction_count  transaction count must be greater than or equal to 1
-      -rc, --robot_count        root count must be greater than or equal to 1
+      -s, --symbol              symbol, and default value is CNBBTC
+      -q, --quantity            quantity must be greater than 0, and default value is 450
+      -f, --fee                 fee must be greater than or equal to 0, and default value is 0.4
+      -p, --profit              profit must be greater than or equal to 0.3, and default value is 0.6
+      -pa, --price_adjust       price_adjust must be greater than or equal to 1, and default value is 1
+      -tc, --transaction_count  transaction count must be greater than or equal to 1, and default value is 1
+      -rc, --robot_count        robot count must be greater than or equal to 1, and default value is 1
       --strategy                transaction strategy, and format is module_name.strategy_class_name
 	```
 
@@ -99,7 +99,7 @@
 
 
 ### Donation
-If you think XTrader is interesting, and give you help on trading, please donate and support the project.
+If you think XTrader is interesting, and give you help on trading, please `star` and `donate` to support the project.
 
 * BTC address: `1LaW6zi9tURj1daAQPvJ6a3WSZUESs6fuT`
 * ETH address: `0x50544ad5b5e64819c7cb01e4645802706ef7156d`
