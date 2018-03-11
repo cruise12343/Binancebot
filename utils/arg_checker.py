@@ -56,4 +56,14 @@ def strategy(value):
         raise ArgumentTypeError("invalid strategy: No class named {}".format(value))
 
     strategy_class = getattr(strategy_module, strategy_class_name)
-    return strategy_class()
+    strategy_obj = strategy_class()
+
+    buy_method_name = "consult_buy_strategy"
+    if hasattr(strategy_obj, buy_method_name) is False:
+        raise ArgumentTypeError("invalid strategy: No method named {}".format(buy_method_name))
+
+    sell_method_name = "consult_buy_strategy"
+    if hasattr(strategy_obj, sell_method_name) is False:
+        raise ArgumentTypeError("invalid strategy: No method named {}".format(sell_method_name))
+
+    return strategy_obj

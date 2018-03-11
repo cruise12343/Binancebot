@@ -6,6 +6,8 @@ import sys
 import threading
 import time
 
+from .xexception import StrategyError
+
 
 class XController:
     INIT_WAIT_TIME = 30
@@ -17,7 +19,7 @@ class XController:
     SELL_TIMES = 3
 
     def __init__(self, robot, option):
-        self._data = threading.local()
+        self._ctx = threading.local()
         self.robot = robot
         self.option = option
 
@@ -53,24 +55,24 @@ class XController:
                     logging.info("[Init]Symbol is not supported: {}".format(self.option.symbol))
                     return False
 
-                self._data.symbol = symbol_info['symbol']
+                self._ctx.symbol = symbol_info['symbol']
 
                 symbol_info['filters'] = {item['filterType']: item for item in symbol_info['filters']}
-                self._data.min_qty = float(symbol_info['filters']['LOT_SIZE']['minQty'])
-                self._data.min_price = float(symbol_info['filters']['PRICE_FILTER']['minPrice'])
-                self._data.min_notional = float(symbol_info['filters']['MIN_NOTIONAL']['minNotional'])
-                self._data.step_size = float(symbol_info['filters']['LOT_SIZE']['stepSize'])
-                self._data.tick_size = float(symbol_info['filters']['PRICE_FILTER']['tickSize'])
+                self._ctx.min_qty = float(symbol_info['filters']['LOT_SIZE']['minQty'])
+                self._ctx.min_price = float(symbol_info['filters']['PRICE_FILTER']['minPrice'])
+                self._ctx.min_notional = float(symbol_info['filters']['MIN_NOTIONAL']['minNotional'])
+                self._ctx.step_size = float(symbol_info['filters']['LOT_SIZE']['stepSize'])
+                self._ctx.tick_size = float(symbol_info['filters']['PRICE_FILTER']['tickSize'])
 
                 quantity = self.option.quantity
-                quantity = self._data.min_qty if quantity < self._data.min_qty else quantity
-                quantity = float(self._data.step_size * math.floor(quantity / self._data.step_size))
-                self._data.quantity = quantity
+                quantity = self._ctx.min_qty if quantity < self._ctx.min_qty else quantity
+                quantity = float(self._ctx.step_size * math.floor(quantity / self._ctx.step_size))
+                self._ctx.quantity = quantity
 
-                self._data.fee = self.option.fee
-                self._data.profit = self.option.profit
-                self._data.price_adjust = self.option.price_adjust
-                self._data.strategy = self.option.strategy
+                self._ctx.fee = self.option.fee
+                self._ctx.profit = self.option.profit
+                self._ctx.price_adjust = self.option.price_adjust
+                self._ctx.strategy = self.option.strategy
 
                 return True
             except Exception as e:
@@ -80,10 +82,13 @@ class XController:
 
     def _buy(self):
         order = None
-        if self.robot.can_buy(self._data, self._data.strategy):
+        if self.robot.can_buy(self._ctx, self._ctx.strategy):
+            if hasattr(self._ctx, 'buy_price') is False:
+                raise StrategyError("invalid strategy: ctx.buy_price is not be set in strategy.")
+
             buy_count = 0
             while buy_count < XController.BUY_TIMES:
-                order = self.robot.buy(self._data.symbol, self._data.quantity, self._data.buy_price)
+                order = self.robot.buy(self._ctx.symbol, self._ctx.quantity, self._ctx.buy_price)
 
                 if order is not None:
                     break
@@ -93,11 +98,13 @@ class XController:
 
     def _sell(self):
         order = None
-        if self.robot.can_sell(self._data, self._data.strategy):
-            sell_count = 0
+        if self.robot.can_sell(self._ctx, self._ctx.strategy):
+            if hasattr(self._ctx, 'sell_price') is False:
+                raise StrategyError("invalid strategy: ctx.sell_price is not be set in strategy.")
 
+            sell_count = 0
             while sell_count < XController.SELL_TIMES:
-                order = self.robot.sell(self._data.symbol, self._data.quantity, self._data.sell_price)
+                order = self.robot.sell(self._ctx.symbol, self._ctx.quantity, self._ctx.sell_price)
 
                 if order is not None:
                     break
