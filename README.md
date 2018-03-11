@@ -39,11 +39,11 @@
     sudo pip install -r requirements.txt
     ```
 
-* Create `API_KEY` and `API_SECRET` on [Binance](http://www.binance.com).
+* Create `API_KEY` and `API_SECRET` on [Binance](https://support.binance.com/hc/en-us/articles/115000840592-Binance-API).
 * Modify `API_KEY` and `API_SECRET` in `${xtrader}/conf/config.py`.
 * Start XTrader.
 
-	```bash
+	```
 	cd ${xtrader}
 	python xtrader.py --symbol CNDBTC --quantity 130
 	2018-03-03 20:56:05,843 - XRobot0(CNDBTC) - INFO - [Start]Transaction1 is started.
