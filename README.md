@@ -18,15 +18,15 @@
                       [--strategy STRATEGY]
 
     optional arguments:
-      -h, --help                show this help message and exit
-      -s, --symbol              symbol, and default value is CNBBTC
-      -q, --quantity            quantity must be greater than 0, and default value is 450
-      -f, --fee                 fee must be greater than or equal to 0, and default value is 0.4
-      -p, --profit              profit must be greater than or equal to 0.3, and default value is 0.6
-      -pa, --price_adjust       price_adjust must be greater than or equal to 1, and default value is 1
-      -tc, --transaction_count  transaction count must be greater than or equal to 1, and default value is 1
-      -rc, --robot_count        robot count must be greater than or equal to 1, and default value is 1
-      --strategy                transaction strategy, and format is module_name.strategy_class_name
+      -h,  --help                show this help message and exit
+      -s,  --symbol              symbol, and default value is CNBBTC
+      -q,  --quantity            quantity must be greater than 0, and default value is 450
+      -f,  --fee                 fee must be greater than or equal to 0, and default value is 0.4
+      -p,  --profit              profit must be greater than or equal to 0.3, and default value is 0.6
+      -pa, --price_adjust        price_adjust must be greater than or equal to 1, and default value is 1
+      -tc, --transaction_count   transaction count must be greater than or equal to 1, and default value is 1
+      -rc, --robot_count         robot count must be greater than or equal to 1, and default value is 1
+           --strategy            transaction strategy, and format is module_name.strategy_class_name
 	```
 
 	> Why the default symbol is `CNBBTC`? Because `CNBBTC` is the symbol in the creation transaction of XTrader.
